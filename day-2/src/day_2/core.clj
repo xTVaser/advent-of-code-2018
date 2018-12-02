@@ -28,13 +28,25 @@
   (let [result (tally-occurences list)]
     (* (first result) (second result))))
 
+(defn find-differences-in-place
+  [s1 s2]
+  (loop [str1 s1
+         str2 s2
+         diff []]
+    ; We know everything is the same length
+    (if str1
+      (let [c1 (first str1)
+            c2 (first str2)]
+        (if (not (= c1 c2))
+          (recur (next str1) (next str2) (conj diff c1))
+          (recur (next str1) (next str2) diff)))
+      diff)))
+
 (defn find-off-by-one
   [list]
   (for [i list
         j list]
-    (let [set1 (into #{} (keys (frequencies i)))
-          set2 (into #{} (keys (frequencies j)))
-          diff (clojure.set/difference set1 set2)]
+    (let [diff (find-differences-in-place i j)]
       (if (= 1 (count diff))
          [i diff]))))
 
