@@ -11,7 +11,7 @@ If ($date -gt 25 -Or $date -lt 1) {
 $cookie = Read-Host 'Enter Session Cookie for www.adventofcode.com'
 $client.Headers.Add([System.Net.HttpRequestHeader]::Cookie, "session=" + $cookie)
 
-Invoke-Expression "lein new app day-1"
+Invoke-Expression "lein new app day-$date"
 
 $client.DownloadFile("http://adventofcode.com/2018/day/$date/input", 'input')
 
